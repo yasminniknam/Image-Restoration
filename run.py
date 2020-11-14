@@ -7,7 +7,7 @@ import shutil
 import sys
 from subprocess import call
 from Face_Detection import align_warp_back_multiple_dlib
-from Face_Enhancement import test_face
+from Face_Enhancement.test_face import test_face
 
 def run_cmd(command):
     try:
@@ -115,6 +115,8 @@ if __name__ == "__main__":
     ## Stage 3: Face Restore
     print("Running Stage 3: Face Enhancement")
     os.chdir(".././Face_Enhancement")
+    from test_face import test_face
+    
     stage_3_input_mask = "./"
     stage_3_input_face = stage_2_output_dir
     stage_3_output_dir = os.path.join(opts.output_folder, "stage_3_face_output")

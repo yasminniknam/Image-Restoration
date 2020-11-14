@@ -182,14 +182,18 @@ class BaseOptions:
         self.initialized = True
         return parser
 
-    def gather_options(self):
+    def gather_options(self, input_opts=None):
         # initialize parser with basic options
         if not self.initialized:
             parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
             parser = self.initialize(parser)
 
         # get the basic options
-        opt, unknown = parser.parse_known_args()
+        if not input_opts:
+            opt, unknown = parser.parse_known_args()
+        else:
+            opt, unknown = parser.parse_known_args(input_opts)
+    
 
         # modify model-related parser options
         model_name = opt.model
@@ -257,12 +261,12 @@ class BaseOptions:
         new_opt = pickle.load(open(file_name + ".pkl", "rb"))
         return new_opt
 
-    def parse(self, save=False):
+    def parse(self, save=False, input_opts=None):
 
-        opt = self.gather_options()
+        opt = self.gather_options(input_opts)
         opt.isTrain = self.isTrain  # train or test
         opt.contain_dontcare_label = False
-
+        
         self.print_options(opt)
         if opt.isTrain:
             self.save_options(opt)
