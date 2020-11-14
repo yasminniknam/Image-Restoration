@@ -10,6 +10,9 @@ from models.pix2pix_model import Pix2PixModel
 from util.visualizer import Visualizer
 import torchvision.utils as vutils
 
+
+
+
 opt = TestOptions().parse()
 
 dataloader = data.create_dataloader(opt)
