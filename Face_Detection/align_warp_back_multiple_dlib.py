@@ -344,14 +344,13 @@ def search(face_landmarks):
     return results
 
 
-# if __name__ == "__main__":
-def align_warp_back_multiple_dlib(opts):
+if __name__ == "__main__":
 
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--origin_url", type=str, default="./", help="origin images")
-    # parser.add_argument("--replace_url", type=str, default="./", help="restored faces")
-    # parser.add_argument("--save_url", type=str, default="./save")
-    # opts = parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--origin_url", type=str, default="./", help="origin images")
+    parser.add_argument("--replace_url", type=str, default="./", help="restored faces")
+    parser.add_argument("--save_url", type=str, default="./save")
+    opts = parser.parse_args()
 
     origin_url = opts.origin_url
     replace_url = opts.replace_url

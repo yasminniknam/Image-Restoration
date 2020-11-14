@@ -6,8 +6,11 @@ import argparse
 import shutil
 import sys
 from subprocess import call
+<<<<<<< HEAD
 from Face_Detection import align_warp_back_multiple_dlib
 # from test_face import test_face
+=======
+>>>>>>> parent of d9a38eb... stage4_revised
 
 def run_cmd(command):
     try:
@@ -141,6 +144,7 @@ if __name__ == "__main__":
     stage_4_output_dir = os.path.join(opts.output_folder, "final_output")
     if not os.path.exists(stage_4_output_dir):
         os.makedirs(stage_4_output_dir)
+<<<<<<< HEAD
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--origin_url", type=str, default="./", help="origin images")
@@ -152,6 +156,17 @@ if __name__ == "__main__":
     opts4 = parser.parse_args(input_opts_stage4)
     align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts4)
 
+=======
+    stage_4_command = (
+        "python align_warp_back_multiple_dlib.py --origin_url "
+        + stage_4_input_image_dir
+        + " --replace_url "
+        + stage_4_input_face_dir
+        + " --save_url "
+        + stage_4_output_dir
+    )
+    run_cmd(stage_4_command)
+>>>>>>> parent of d9a38eb... stage4_revised
     print("Finish Stage 4 ...")
     print("\n")
 

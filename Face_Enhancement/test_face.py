@@ -10,12 +10,16 @@ from models.pix2pix_model import Pix2PixModel
 from util.visualizer import Visualizer
 import torchvision.utils as vutils
 
+<<<<<<< HEAD
 
 def test_face(input_opt):
 
     opt = TestOptions().parse(input_opts=input_opt)
 
     dataloader = data.create_dataloader(opt)
+=======
+opt = TestOptions().parse()
+>>>>>>> parent of d9a38eb... stage4_revised
 
     model = Pix2PixModel(opt)
     model.eval()
