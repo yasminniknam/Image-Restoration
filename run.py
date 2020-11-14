@@ -7,7 +7,7 @@ import shutil
 import sys
 from subprocess import call
 from Face_Detection import align_warp_back_multiple_dlib
-from Face_Enhancement.test_face import test_face
+# from test_face import test_face
 
 def run_cmd(command):
     try:
@@ -125,8 +125,8 @@ if __name__ == "__main__":
     
     input_opts_stage3 = ["--old_face_folder", stage_3_input_face, "--old_face_label_folder", stage_3_input_mask,
                         "--tensorboard_log", "--name", opts.checkpoint_name, "--gpu_ids", gpu1,
-                        "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize"
-                        "--batchSize", "4" "--results_dir", stage_3_output_dir, "--no_parsing_map"]
+                        "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize",
+                        "--batchSize", "4", "--results_dir", stage_3_output_dir, "--no_parsing_map"]
 
     test_face.test_face(input_opts_stage3)
     
