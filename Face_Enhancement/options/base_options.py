@@ -193,6 +193,7 @@ class BaseOptions:
             opt, unknown = parser.parse_known_args()
         else:    
             opt, unknown = parser.parse_known_args(_input_opts)
+        # opt, unknown = parser.parse_known_args()
 
         # modify model-related parser options
         model_name = opt.model
@@ -204,14 +205,21 @@ class BaseOptions:
         # dataset_option_setter = data.get_option_setter(dataset_mode)
         # parser = dataset_option_setter(parser, self.isTrain)
 
-        opt, unknown = parser.parse_known_args()
+        if _input_opts == None:
+            opt, unknown = parser.parse_known_args()
+        else:    
+            opt, unknown = parser.parse_known_args(_input_opts)
+        
 
         # if there is opt_file, load it.
         # The previous default options will be overwritten
         if opt.load_from_opt_file:
             parser = self.update_options_from_file(parser, opt)
 
-        opt = parser.parse_args()
+        if _input_opts == None:
+            opt = parser.parse_args()
+        else:    
+            opt = parser.parse_args(_input_opts)
         self.parser = parser
         return opt
 
