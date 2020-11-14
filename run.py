@@ -8,6 +8,10 @@ import sys
 from subprocess import call
 from Face_Detection import align_warp_back_multiple_dlib
 
+sys.path.insert(0, '/content/photo_restoration/Face_Enhancement')
+import test_face
+sys.path.remove('/content/photo_restoration/Face_Enhancement')
+
 def run_cmd(command):
     try:
         call(command, shell=True)
@@ -44,7 +48,7 @@ if __name__ == "__main__":
 
     ## Stage 1: Overall Quality Improve
     print("Running Stage 1: Overall restoration")
-    os.chdir("./Global")
+    os.chdir(".././Global")
     stage_1_input_dir = opts.input_folder
     stage_1_output_dir = os.path.join(opts.output_folder, "stage_1_restore_output")
     if not os.path.exists(stage_1_output_dir):
@@ -119,20 +123,15 @@ if __name__ == "__main__":
     stage_3_output_dir = os.path.join(opts.output_folder, "stage_3_face_output")
     if not os.path.exists(stage_3_output_dir):
         os.makedirs(stage_3_output_dir)
-    stage_3_command = (
-        "python test_face.py --old_face_folder "
-        + stage_3_input_face
-        + " --old_face_label_folder "
-        + stage_3_input_mask
-        + " --tensorboard_log --name "
-        + opts.checkpoint_name
-        + " --gpu_ids "
-        + gpu1
-        + " --load_size 256 --label_nc 18 --no_instance --preprocess_mode resize --batchSize 4 --results_dir "
-        + stage_3_output_dir
-        + " --no_parsing_map"
-    )
-    run_cmd(stage_3_command)
+    
+        
+    input_opts_stage3 = ["--old_face_folder", stage_3_input_face, "--old_face_label_folder", stage_3_input_mask,
+                        "--tensorboard_log", "--name", opts.checkpoint_name, "--gpu_ids", gpu1,
+                        "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize",
+                        "--batchSize", "4", "--results_dir", stage_3_output_dir, "--no_parsing_map"]
+
+    test_face.test_face(input_opts_stage3)
+    
     print("Finish Stage 3 ...")
     print("\n")
 
