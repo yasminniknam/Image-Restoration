@@ -11,36 +11,36 @@ from util.visualizer import Visualizer
 import torchvision.utils as vutils
 
 
+def test_face(input_opt):
+
+    opt = TestOptions().parse(input_opts=input_opt)
+
+    dataloader = data.create_dataloader(opt)
+
+    model = Pix2PixModel(opt)
+    model.eval()
+
+    visualizer = Visualizer(opt)
 
 
-opt = TestOptions().parse()
-
-dataloader = data.create_dataloader(opt)
-
-model = Pix2PixModel(opt)
-model.eval()
-
-visualizer = Visualizer(opt)
+    single_save_url = os.path.join(opt.checkpoints_dir, opt.name, opt.results_dir, "each_img")
 
 
-single_save_url = os.path.join(opt.checkpoints_dir, opt.name, opt.results_dir, "each_img")
+    if not os.path.exists(single_save_url):
+        os.makedirs(single_save_url)
 
 
-if not os.path.exists(single_save_url):
-    os.makedirs(single_save_url)
+    for i, data_i in enumerate(dataloader):
+        if i * opt.batchSize >= opt.how_many:
+            break
 
+        generated = model(data_i, mode="inference")
 
-for i, data_i in enumerate(dataloader):
-    if i * opt.batchSize >= opt.how_many:
-        break
+        img_path = data_i["path"]
 
-    generated = model(data_i, mode="inference")
+        for b in range(generated.shape[0]):
+            img_name = os.path.split(img_path[b])[-1]
+            save_img_url = os.path.join(single_save_url, img_name)
 
-    img_path = data_i["path"]
-
-    for b in range(generated.shape[0]):
-        img_name = os.path.split(img_path[b])[-1]
-        save_img_url = os.path.join(single_save_url, img_name)
-
-        vutils.save_image((generated[b] + 1) / 2, save_img_url)
+            vutils.save_image((generated[b] + 1) / 2, save_img_url)
 
