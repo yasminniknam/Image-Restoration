@@ -127,14 +127,14 @@ def affine2theta(affine, input_w, input_h, target_w, target_h):
     return theta
 
 
-if __name__ == "__main__":
+def detect_all_dlib(input_opts):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", type=str, default="/home/jingliao/ziyuwan/celebrities", help="input")
     parser.add_argument(
         "--save_url", type=str, default="/home/jingliao/ziyuwan/celebrities_detected_face_reid", help="output"
     )
-    opts = parser.parse_args()
+    opts = parser.parse_args(input_opts)
 
     url = opts.url
     save_url = opts.save_url

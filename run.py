@@ -7,6 +7,7 @@ import shutil
 import sys
 from subprocess import call
 from Face_Detection import align_warp_back_multiple_dlib
+from Face_Detection import detect_all_dlib
 
 sys.path.insert(0, '/content/photo_restoration/Face_Enhancement')
 import test_face
@@ -108,10 +109,10 @@ if __name__ == "__main__":
     stage_2_output_dir = os.path.join(opts.output_folder, "stage_2_detection_output")
     if not os.path.exists(stage_2_output_dir):
         os.makedirs(stage_2_output_dir)
-    stage_2_command = (
-        "python detect_all_dlib.py --url " + stage_2_input_dir + " --save_url " + stage_2_output_dir
-    )
-    run_cmd(stage_2_command)
+    
+    input_opts_stage2 = ["--url", stage_2_input_dir, "--save_url", stage_2_output_dir]
+    detect_all_dlib.detect_all_dlib(input_opts_stage2)
+    
     print("Finish Stage 2 ...")
     print("\n")
 
