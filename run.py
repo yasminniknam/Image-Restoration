@@ -6,11 +6,7 @@ import argparse
 import shutil
 import sys
 from subprocess import call
-<<<<<<< HEAD
 from Face_Detection import align_warp_back_multiple_dlib
-# from test_face import test_face
-=======
->>>>>>> parent of d9a38eb... stage4_revised
 
 def run_cmd(command):
     try:
@@ -118,21 +114,25 @@ if __name__ == "__main__":
     ## Stage 3: Face Restore
     print("Running Stage 3: Face Enhancement")
     os.chdir(".././Face_Enhancement")
-    from test_face import test_face
-    
     stage_3_input_mask = "./"
     stage_3_input_face = stage_2_output_dir
     stage_3_output_dir = os.path.join(opts.output_folder, "stage_3_face_output")
     if not os.path.exists(stage_3_output_dir):
         os.makedirs(stage_3_output_dir)
-    
-    input_opts_stage3 = ["--old_face_folder", stage_3_input_face, "--old_face_label_folder", stage_3_input_mask,
-                        "--tensorboard_log", "--name", opts.checkpoint_name, "--gpu_ids", gpu1,
-                        "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize",
-                        "--batchSize", "4", "--results_dir", stage_3_output_dir, "--no_parsing_map"]
-
-    test_face.test_face(input_opts_stage3)
-    
+    stage_3_command = (
+        "python test_face.py --old_face_folder "
+        + stage_3_input_face
+        + " --old_face_label_folder "
+        + stage_3_input_mask
+        + " --tensorboard_log --name "
+        + opts.checkpoint_name
+        + " --gpu_ids "
+        + gpu1
+        + " --load_size 256 --label_nc 18 --no_instance --preprocess_mode resize --batchSize 4 --results_dir "
+        + stage_3_output_dir
+        + " --no_parsing_map"
+    )
+    run_cmd(stage_3_command)
     print("Finish Stage 3 ...")
     print("\n")
 
@@ -144,29 +144,17 @@ if __name__ == "__main__":
     stage_4_output_dir = os.path.join(opts.output_folder, "final_output")
     if not os.path.exists(stage_4_output_dir):
         os.makedirs(stage_4_output_dir)
-<<<<<<< HEAD
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--origin_url", type=str, default="./", help="origin images")
     parser.add_argument("--replace_url", type=str, default="./", help="restored faces")
     parser.add_argument("--save_url", type=str, default="./save")
-    input_opts_stage4 = ["--origin_url", stage_4_input_image_dir, "--replace_url", stage_4_input_face_dir,
+    input_opts = ["--origin_url", stage_4_input_image_dir, "--replace_url", stage_4_input_face_dir,
                 "--save_url", stage_4_output_dir]
     
-    opts4 = parser.parse_args(input_opts_stage4)
-    align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts4)
+    opts = parser.parse_args(input_opts)
+    align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts)
 
-=======
-    stage_4_command = (
-        "python align_warp_back_multiple_dlib.py --origin_url "
-        + stage_4_input_image_dir
-        + " --replace_url "
-        + stage_4_input_face_dir
-        + " --save_url "
-        + stage_4_output_dir
-    )
-    run_cmd(stage_4_command)
->>>>>>> parent of d9a38eb... stage4_revised
     print("Finish Stage 4 ...")
     print("\n")
 
