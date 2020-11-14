@@ -142,7 +142,7 @@ def main(config):
         # blend_output.save(os.path.join(blend_output_dir,image_name[:-4]+'.png'))
 
 
-if __name__ == "__main__":
+def detection(input_opts):
     parser = argparse.ArgumentParser()
     # parser.add_argument('--checkpoint_name', type=str, default="FT_Epoch_latest.pt", help='Checkpoint Name')
 
@@ -150,6 +150,6 @@ if __name__ == "__main__":
     parser.add_argument("--test_path", type=str, default=".")
     parser.add_argument("--output_dir", type=str, default=".")
     parser.add_argument("--input_size", type=str, default="scale_256", help="resize_256|full_size|scale_256")
-    config = parser.parse_args()
+    config = parser.parse_args(input_opts)
 
     main(config)

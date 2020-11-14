@@ -88,9 +88,9 @@ def parameter_set(opt):
         opt.load_pretrainB = os.path.join(opt.checkpoints_dir, "VAE_B_scratch")
 
 
-if __name__ == "__main__":
+def test(input_opts):
 
-    opt = TestOptions().parse(save=False)
+    opt = TestOptions().parse(_input_opts=input_opts, save=False)
     parameter_set(opt)
 
     model = Pix2PixHDModel_Mapping()

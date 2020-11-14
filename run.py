@@ -9,9 +9,15 @@ from subprocess import call
 from Face_Detection import align_warp_back_multiple_dlib
 from Face_Detection import detect_all_dlib
 
+sys.path.insert(0, '/content/photo_restoration/Global')
+import test
+import detection
+sys.path.remove('/content/photo_restoration/Global')
+
 sys.path.insert(0, '/content/photo_restoration/Face_Enhancement')
 import test_face
 sys.path.remove('/content/photo_restoration/Face_Enhancement')
+
 
 def run_cmd(command):
     try:
@@ -56,38 +62,25 @@ if __name__ == "__main__":
         os.makedirs(stage_1_output_dir)
 
     if not opts.with_scratch:
-        stage_1_command = (
-            "python test.py --test_mode Full --Quality_restore --test_input "
-            + stage_1_input_dir
-            + " --outputs_dir "
-            + stage_1_output_dir
-            + " --gpu_ids "
-            + gpu1
-        )
-        run_cmd(stage_1_command)
+        input_opts_stage1 = ["--test_mode", "Full", "--Quality_restore", 
+                            "--test_input", stage_1_input_dir, "--outputs_dir", stage_1_output_dir, 
+                            "--gpu_ids", gpu1]
+    
+        test.test(input_opts_stage1)
+    
     else:
-
         mask_dir = os.path.join(stage_1_output_dir, "masks")
         new_input = os.path.join(mask_dir, "input")
         new_mask = os.path.join(mask_dir, "mask")
-        stage_1_command_1 = (
-            "python detection.py --test_path "
-            + stage_1_input_dir
-            + " --output_dir "
-            + mask_dir
-            + " --input_size full_size"
-        )
-        stage_1_command_2 = (
-            "python test.py --Scratch_and_Quality_restore --test_input "
-            + new_input
-            + " --test_mask "
-            + new_mask
-            + " --outputs_dir "
-            + stage_1_output_dir
-        )
-
-        run_cmd(stage_1_command_1)
-        run_cmd(stage_1_command_2)
+        
+        input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
+                                    "--input_size", "full_size"]
+        detection.detection(input_opts_stage1_command1)
+        
+        input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
+                                    "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
+        
+        test.test(input_opts_stage1_command2)
 
     ## Solve the case when there is no face in the old photo
     stage_1_results = os.path.join(stage_1_output_dir, "restored_image")
