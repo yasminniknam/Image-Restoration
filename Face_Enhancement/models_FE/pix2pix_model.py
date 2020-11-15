@@ -2,8 +2,8 @@
 # Licensed under the MIT License.
 
 import torch
-import models.networks as networks
-import util.util as util
+import models_FE.networks as networks
+import util_FE.util as util
 
 
 class Pix2PixModel(torch.nn.Module):

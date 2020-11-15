@@ -7,9 +7,9 @@ import torch
 
 def find_model_using_name(model_name):
     # Given the option --model [modelname],
-    # the file "models/modelname_model.py"
+    # the file "models_FE/modelname_model.py"
     # will be imported.
-    model_filename = "models." + model_name + "_model"
+    model_filename = "models_FE." + model_name + "_model"
     modellib = importlib.import_module(model_filename)
 
     # In the file, the class called ModelNameModel() will

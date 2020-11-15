@@ -1,8 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-from data.pix2pix_dataset import Pix2pixDataset
-from data.image_folder import make_dataset
+from data_FE.pix2pix_dataset import Pix2pixDataset
+from data_FE.image_folder import make_dataset
 
 
 class CustomDataset(Pix2pixDataset):

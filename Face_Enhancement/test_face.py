@@ -4,10 +4,10 @@
 import os
 from collections import OrderedDict
 
-import data
-from options.test_options import TestOptions
-from models.pix2pix_model import Pix2PixModel
-from util.visualizer import Visualizer
+import data_FE
+from options_FE.test_options import TestOptions
+from models_FE.pix2pix_model import Pix2PixModel
+from util_FE.visualizer import Visualizer
 import torchvision.utils as vutils
 
 
@@ -15,7 +15,7 @@ import torchvision.utils as vutils
 def test_face(input_opts):
     opt = TestOptions().parse(_input_opts=input_opts)
 
-    dataloader = data.create_dataloader(opt)
+    dataloader = data_FE.create_dataloader(opt)
 
     model = Pix2PixModel(opt)
     model.eval()
