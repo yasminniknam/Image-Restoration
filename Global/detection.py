@@ -54,7 +54,7 @@ def blend_mask(img, mask):
     return Image.fromarray((np_img * (1 - mask) + mask * 255.0).astype("uint8")).convert("RGB")
 
 
-def main(config, input_images):
+def main(config, input_images, image_names):
     print("initializing the dataloader")
 
     model = networks.UNet(
@@ -100,11 +100,13 @@ def main(config, input_images):
     idx = 0
 
     # for image_name in imagelist:
-    for scratch_image in input_images:
-
+    # for scratch_image in input_images:
+    for i in range(len(input_images)):
+        scratch_image = input_images[i]
+        image_name = image_names[i]
         idx += 1
 
-        print("processing ", idx)
+        print("processing ", image_name)
 
         results = []
         # scratch_file = os.path.join(config.test_path, image_name)
@@ -128,25 +130,25 @@ def main(config, input_images):
         P = torch.sigmoid(model(scratch_image))
 
         P = P.data.cpu()
-
+        
         tv.utils.save_image(
             (P >= 0.4).float(),
-            # os.path.join(output_dir, image_name[:-4] + ".png",),
-            os.path.join(output_dir, str(idx) + ".png",),
+            os.path.join(output_dir, image_name[:-4] + ".png",),
+            # os.path.join(output_dir, str(idx) + ".png",),
             nrow=1,
             padding=0,
             normalize=True,
         )
-        # transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
-        transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
-        
+        transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
+        # transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
+
         # single_mask=np.array((P>=0.4).float())[0,0,:,:]
         # RGB_mask=np.stack([single_mask,single_mask,single_mask],axis=2)
         # blend_output=blend_mask(transformed_image_PIL,RGB_mask)
         # blend_output.save(os.path.join(blend_output_dir,image_name[:-4]+'.png'))
 
 
-def detection(input_opts, input_images):
+def detection(input_opts, input_images, image_names):
     parser = argparse.ArgumentParser()
     # parser.add_argument('--checkpoint_name', type=str, default="FT_Epoch_latest.pt", help='Checkpoint Name')
 
@@ -156,4 +158,4 @@ def detection(input_opts, input_images):
     parser.add_argument("--input_size", type=str, default="scale_256", help="resize_256|full_size|scale_256")
     config = parser.parse_args(input_opts)
 
-    main(config, input_images)
+    main(config, input_images, image_names)
