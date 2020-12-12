@@ -110,6 +110,7 @@ def test(input_opts):
     input_loader = os.listdir(opt.test_input)
     dataset_size = len(input_loader)
     input_loader.sort()
+    # dataset_size = len(input_loader)
 
     if opt.test_mask != "":
         mask_loader = os.listdir(opt.test_mask)

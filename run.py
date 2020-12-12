@@ -61,6 +61,8 @@ if __name__ == "__main__":
     if not os.path.exists(stage_1_output_dir):
         os.makedirs(stage_1_output_dir)
 
+    
+
     if not opts.with_scratch:
         input_opts_stage1 = ["--test_mode", "Full", "--Quality_restore", 
                             "--test_input", stage_1_input_dir, "--outputs_dir", stage_1_output_dir, 
