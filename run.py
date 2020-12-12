@@ -64,6 +64,7 @@ if __name__ == "__main__":
         os.makedirs(stage_1_output_dir)
 
     input_images = []
+    input_names = []
 
     imagelist = os.listdir(stage_1_input_dir)
     imagelist.sort()
@@ -73,6 +74,7 @@ if __name__ == "__main__":
         if not os.path.isfile(input_file):
             print("Skipping non-file %s" % image_name)
             continue
+        input_names.appen(image_name)
         input_image = Image.open(input_file).convert("RGB")
         input_images.append(input_image)
     
@@ -91,7 +93,7 @@ if __name__ == "__main__":
         
         input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
                                     "--input_size", "full_size"]
-        detection.detection(input_opts_stage1_command1, input_images)
+        detection.detection(input_opts_stage1_command1, input_images, input_names)
         
         input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
                                     "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
