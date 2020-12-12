@@ -74,7 +74,7 @@ if __name__ == "__main__":
         if not os.path.isfile(input_file):
             print("Skipping non-file %s" % image_name)
             continue
-        input_names.appen(image_name)
+        input_names.append(image_name)
         input_image = Image.open(input_file).convert("RGB")
         input_images.append(input_image)
     
