@@ -54,7 +54,7 @@ def blend_mask(img, mask):
     return Image.fromarray((np_img * (1 - mask) + mask * 255.0).astype("uint8")).convert("RGB")
 
 
-def main(config):
+def main(config, input_images):
     print("initializing the dataloader")
 
     model = networks.UNet(
@@ -82,8 +82,8 @@ def main(config):
 
     ## dataloader and transformation
     print("directory of testing image: " + config.test_path)
-    imagelist = os.listdir(config.test_path)
-    imagelist.sort()
+    # imagelist = os.listdir(config.test_path)
+    # imagelist.sort()
     total_iter = 0
 
     P_matrix = {}
@@ -99,18 +99,19 @@ def main(config):
 
     idx = 0
 
-    for image_name in imagelist:
+    # for image_name in imagelist:
+    for scratch_image in input_images:
 
         idx += 1
 
-        print("processing", image_name)
+        print("processing ", idx)
 
         results = []
-        scratch_file = os.path.join(config.test_path, image_name)
-        if not os.path.isfile(scratch_file):
-            print("Skipping non-file %s" % image_name)
-            continue
-        scratch_image = Image.open(scratch_file).convert("RGB")
+        # scratch_file = os.path.join(config.test_path, image_name)
+        # if not os.path.isfile(scratch_file):
+            # print("Skipping non-file %s" % image_name)
+            # continue
+        # scratch_image = Image.open(scratch_file).convert("RGB")
 
         w, h = scratch_image.size
 
@@ -130,19 +131,22 @@ def main(config):
 
         tv.utils.save_image(
             (P >= 0.4).float(),
-            os.path.join(output_dir, image_name[:-4] + ".png",),
+            # os.path.join(output_dir, image_name[:-4] + ".png",),
+            os.path.join(output_dir, str(idx) + ".png",),
             nrow=1,
             padding=0,
             normalize=True,
         )
-        transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
+        # transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
+        transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
+        
         # single_mask=np.array((P>=0.4).float())[0,0,:,:]
         # RGB_mask=np.stack([single_mask,single_mask,single_mask],axis=2)
         # blend_output=blend_mask(transformed_image_PIL,RGB_mask)
         # blend_output.save(os.path.join(blend_output_dir,image_name[:-4]+'.png'))
 
 
-def detection(input_opts):
+def detection(input_opts, input_images):
     parser = argparse.ArgumentParser()
     # parser.add_argument('--checkpoint_name', type=str, default="FT_Epoch_latest.pt", help='Checkpoint Name')
 
@@ -152,4 +156,4 @@ def detection(input_opts):
     parser.add_argument("--input_size", type=str, default="scale_256", help="resize_256|full_size|scale_256")
     config = parser.parse_args(input_opts)
 
-    main(config)
+    main(config, input_images)

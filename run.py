@@ -6,6 +6,7 @@ import argparse
 import shutil
 import sys
 from subprocess import call
+from PIL import Image, ImageFile
 from Face_Detection import align_warp_back_multiple_dlib
 from Face_Detection import detect_all_dlib
 
@@ -53,6 +54,7 @@ if __name__ == "__main__":
 
     main_environment = os.getcwd()
 
+    
     ## Stage 1: Overall Quality Improve
     print("Running Stage 1: Overall restoration")
     os.chdir("./Global")
@@ -61,6 +63,18 @@ if __name__ == "__main__":
     if not os.path.exists(stage_1_output_dir):
         os.makedirs(stage_1_output_dir)
 
+    input_images = []
+
+    imagelist = os.listdir(stage_1_input_dir)
+    imagelist.sort()
+    
+    for image_name in imagelist:
+        input_file = os.path.join(stage_1_input_dir, image_name)
+        if not os.path.isfile(input_file):
+            print("Skipping non-file %s" % image_name)
+            continue
+        input_image = Image.open(input_file).convert("RGB")
+        input_images.append(input_image)
     
 
     if not opts.with_scratch:
@@ -77,7 +91,7 @@ if __name__ == "__main__":
         
         input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
                                     "--input_size", "full_size"]
-        detection.detection(input_opts_stage1_command1)
+        detection.detection(input_opts_stage1_command1, input_images)
         
         input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
                                     "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
