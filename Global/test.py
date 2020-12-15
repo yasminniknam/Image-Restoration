@@ -16,6 +16,39 @@ import torchvision.transforms as transforms
 import numpy as np
 
 
+
+def save_image(
+    tensor: Union[torch.Tensor, List[torch.Tensor]],
+    fp: Union[Text, pathlib.Path, BinaryIO],
+    nrow: int = 8,
+    padding: int = 2,
+    normalize: bool = False,
+    range: Optional[Tuple[int, int]] = None,
+    scale_each: bool = False,
+    pad_value: int = 0,
+    format: Optional[str] = None,
+) -> None:
+    """Save a given Tensor into an image file.
+    Args:
+        tensor (Tensor or list): Image to be saved. If given a mini-batch tensor,
+            saves the tensor as a grid of images by calling ``make_grid``.
+        fp (string or file object): A filename or a file object
+        format(Optional):  If omitted, the format to use is determined from the filename extension.
+            If a file object was used instead of a filename, this parameter should always be used.
+        **kwargs: Other arguments are documented in ``make_grid``.
+    """
+    grid = vutils.make_grid(tensor, nrow=nrow, padding=padding, pad_value=pad_value,
+                     normalize=normalize, range=range, scale_each=scale_each)
+    # Add 0.5 after unnormalizing to [0, 255] to round to nearest integer
+    ndarr = grid.mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to('cpu', torch.uint8).numpy()
+    im = Image.fromarray(ndarr)
+    im.save(fp, format=format)
+
+    return im
+
+
+
+
 def data_transforms(img, method=Image.BILINEAR, scale=False):
 
     ow, oh = img.size
@@ -167,14 +200,14 @@ def test(input_opts, input_loader, input_names):
         if input_name.endswith(".jpg"):
             input_name = input_name[:-4] + ".png"
 
-        image_grid = vutils.save_image(
+        image_grid = save_image(
             (input + 1.0) / 2.0,
             opt.outputs_dir + "/input_image/" + input_name,
             nrow=1,
             padding=0,
             normalize=True,
         )
-        image_grid = vutils.save_image(
+        image_grid = save_image(
             (generated.data.cpu() + 1.0) / 2.0,
             opt.outputs_dir + "/restored_image/" + input_name,
             nrow=1,
