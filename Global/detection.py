@@ -98,6 +98,7 @@ def main(config, input_images, image_names):
     # mkdir_if_not(blend_output_dir)
 
     idx = 0
+    input_dirs = []
 
     # for image_name in imagelist:
     # for scratch_image in input_images:
@@ -131,6 +132,7 @@ def main(config, input_images, image_names):
 
         P = P.data.cpu()
         
+        
         tv.utils.save_image(
             (P >= 0.4).float(),
             os.path.join(output_dir, image_name[:-4] + ".png",),
@@ -140,12 +142,15 @@ def main(config, input_images, image_names):
             normalize=True,
         )
         transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
+        input_dirs.append(transformed_image_PIL)
         # transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
 
         # single_mask=np.array((P>=0.4).float())[0,0,:,:]
         # RGB_mask=np.stack([single_mask,single_mask,single_mask],axis=2)
         # blend_output=blend_mask(transformed_image_PIL,RGB_mask)
         # blend_output.save(os.path.join(blend_output_dir,image_name[:-4]+'.png'))
+
+    return input_dirs
 
 
 def detection(input_opts, input_images, image_names):
@@ -158,4 +163,4 @@ def detection(input_opts, input_images, image_names):
     parser.add_argument("--input_size", type=str, default="scale_256", help="resize_256|full_size|scale_256")
     config = parser.parse_args(input_opts)
 
-    main(config, input_images, image_names)
+    return main(config, input_images, image_names)

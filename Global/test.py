@@ -88,7 +88,7 @@ def parameter_set(opt):
         opt.load_pretrainB = os.path.join(opt.checkpoints_dir, "VAE_B_scratch")
 
 
-def test(input_opts):
+def test(input_opts, input_loader, input_names):
 
     opt = TestOptions().parse(_input_opts=input_opts, save=False)
     parameter_set(opt)
@@ -107,9 +107,9 @@ def test(input_opts):
 
     dataset_size = 0
 
-    input_loader = os.listdir(opt.test_input)
+    # input_loader = os.listdir(opt.test_input)
     dataset_size = len(input_loader)
-    input_loader.sort()
+    # input_loader.sort()
     # dataset_size = len(input_loader)
 
     if opt.test_mask != "":
@@ -124,12 +124,14 @@ def test(input_opts):
 
     for i in range(dataset_size):
 
-        input_name = input_loader[i]
-        input_file = os.path.join(opt.test_input, input_name)
-        if not os.path.isfile(input_file):
-            print("Skipping non-file %s" % input_name)
-            continue
-        input = Image.open(input_file).convert("RGB")
+        input = input_loader[i]
+        input_name = input_names[i]
+        # input_name = input_loader[i]
+        # input_file = os.path.join(opt.test_input, input_name)
+        # if not os.path.isfile(input_file):
+        #     print("Skipping non-file %s" % input_name)
+        #     continue
+        # input = Image.open(input_file).convert("RGB")
 
         print("Now you are processing %s" % (input_name))
 
