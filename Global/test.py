@@ -8,12 +8,17 @@ from options.test_options import TestOptions
 from models.models import create_model
 from models.mapping_model import Pix2PixHDModel_Mapping
 import util.util as util
-from PIL import Image
+from PIL import Image, ImageFont
 import torch
 import torchvision.utils as vutils
 import torchvision.transforms as transforms
 import torchvision.transforms as transforms
 import numpy as np
+
+from typing import Union, Optional, List, Tuple, Text, BinaryIO
+import math
+import pathlib
+
 
 
 
@@ -155,6 +160,10 @@ def test(input_opts, input_loader, input_names):
     )
     mask_transform = transforms.ToTensor()
 
+    input_images = []
+    restored_images = []
+    origins = []
+
     for i in range(dataset_size):
 
         input = input_loader[i]
@@ -200,20 +209,36 @@ def test(input_opts, input_loader, input_names):
         if input_name.endswith(".jpg"):
             input_name = input_name[:-4] + ".png"
 
-        image_grid = save_image(
+        input_images.append(save_image(
             (input + 1.0) / 2.0,
             opt.outputs_dir + "/input_image/" + input_name,
             nrow=1,
             padding=0,
             normalize=True,
-        )
-        image_grid = save_image(
+        ))
+        # image_grid = save_image(
+        #     (input + 1.0) / 2.0,
+        #     opt.outputs_dir + "/input_image/" + input_name,
+        #     nrow=1,
+        #     padding=0,
+        #     normalize=True,
+        # )
+        # image_grid = save_image(
+        #     (generated.data.cpu() + 1.0) / 2.0,
+        #     opt.outputs_dir + "/restored_image/" + input_name,
+        #     nrow=1,
+        #     padding=0,
+        #     normalize=True,
+        # )
+
+        restored_images.append(save_image(
             (generated.data.cpu() + 1.0) / 2.0,
             opt.outputs_dir + "/restored_image/" + input_name,
             nrow=1,
             padding=0,
             normalize=True,
-        )
+        ))
+        origins.append(origin)
+        # origin.save(opt.outputs_dir + "/origin/" + input_name)
 
-        origin.save(opt.outputs_dir + "/origin/" + input_name)
-
+    return restored_images

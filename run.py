@@ -84,7 +84,7 @@ if __name__ == "__main__":
                             "--test_input", stage_1_input_dir, "--outputs_dir", stage_1_output_dir, 
                             "--gpu_ids", gpu1]
     
-        test.test(input_opts_stage1, input_images, input_names)
+        restored_images = test.test(input_opts_stage1, input_images, input_names)
     
     else:
         mask_dir = os.path.join(stage_1_output_dir, "masks")
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
                                     "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
         
-        test.test(input_opts_stage1_command2, input_imgs_after_detection, input_names)
+        restored_images = test.test(input_opts_stage1_command2, input_imgs_after_detection, input_names)
 
     ## Solve the case when there is no face in the old photo
     stage_1_results = os.path.join(stage_1_output_dir, "restored_image")
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         os.makedirs(stage_2_output_dir)
     
     input_opts_stage2 = ["--url", stage_2_input_dir, "--save_url", stage_2_output_dir]
-    detect_all_dlib.detect_all_dlib(input_opts_stage2)
+    detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
     
     print("Finish Stage 2 ...")
     print("\n")

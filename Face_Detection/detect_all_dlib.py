@@ -127,7 +127,7 @@ def affine2theta(affine, input_w, input_h, target_w, target_h):
     return theta
 
 
-def detect_all_dlib(input_opts):
+def detect_all_dlib(input_opts, restored_images, input_names):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", type=str, default="/home/jingliao/ziyuwan/celebrities", help="input")
@@ -150,9 +150,11 @@ def detect_all_dlib(input_opts):
     count = 0
 
     map_id = {}
-    for x in os.listdir(url):
-        img_url = os.path.join(url, x)
-        pil_img = Image.open(img_url).convert("RGB")
+    # for x in os.listdir(url):
+    for x in range(len(restored_images)):
+        # img_url = os.path.join(url, x)
+        # pil_img = Image.open(img_url).convert("RGB")
+        pil_imd = restored_images[x]
 
         image = np.array(pil_img)
 
@@ -161,7 +163,7 @@ def detect_all_dlib(input_opts):
         done = time.time()
 
         if len(faces) == 0:
-            print("Warning: There is no face in %s" % (x))
+            print("Warning: There is no face in %s" % (input_names[x]))
             continue
 
         print(len(faces))
