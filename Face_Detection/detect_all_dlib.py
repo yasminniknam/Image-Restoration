@@ -100,7 +100,7 @@ def compute_transformation_matrix(img, landmark, normalize, target_face_scale=1.
 
 def show_detection(image, box, landmark):
     plt.imshow(image)
-    print(box[2] - box[0])
+    # print(box[2] - box[0])
     plt.gca().add_patch(
         Rectangle(
             (box[1], box[0]), box[2] - box[0], box[3] - box[1], linewidth=1, edgecolor="r", facecolor="none"
@@ -166,10 +166,10 @@ def detect_all_dlib(input_opts, restored_images, input_names):
         done = time.time()
 
         if len(faces) == 0:
-            print("Warning: There is no face in %s" % (input_names[x]))
+            # print("Warning: There is no face in %s" % (input_names[x]))
             continue
 
-        print(len(faces))
+        # print(len(faces))
 
         if len(faces) > 0:
             # all_faces_one_frame = []
@@ -188,8 +188,8 @@ def detect_all_dlib(input_opts, restored_images, input_names):
             # final_faces[x] = all_faces_one_frame
         count += 1
 
-        if count % 1000 == 0:
-            print("%d have finished ..." % (count))
+        # if count % 1000 == 0:
+            # print("%d have finished ..." % (count))
     
     return face_names, faces_detected
 

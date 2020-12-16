@@ -90,7 +90,7 @@ def blend_mask(img, mask):
 
 
 def main(config, input_images, image_names):
-    print("initializing the dataloader")
+    # print("initializing the dataloader")
 
     model = networks.UNet(
         in_channels=1,
@@ -110,13 +110,13 @@ def main(config, input_images, image_names):
     checkpoint_path = "./checkpoints/detection/FT_Epoch_latest.pt"
     checkpoint = torch.load(checkpoint_path, map_location="cpu")
     model.load_state_dict(checkpoint["model_state"])
-    print("model weights loaded")
+    # print("model weights loaded")
 
     model.to(config.GPU)
     model.eval()
 
     ## dataloader and transformation
-    print("directory of testing image: " + config.test_path)
+    # print("directory of testing image: " + config.test_path)
     # imagelist = os.listdir(config.test_path)
     # imagelist.sort()
     total_iter = 0
@@ -143,7 +143,7 @@ def main(config, input_images, image_names):
         image_name = image_names[i]
         idx += 1
 
-        print("processing ", image_name)
+        # print("processing ", image_name)
 
         results = []
         # scratch_file = os.path.join(config.test_path, image_name)

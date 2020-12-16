@@ -11,7 +11,7 @@ def create_dataloader(opt, input_images, image_list):
 
     instance = FaceTestDataset()
     instance.initialize(opt, input_images, image_list)
-    print("dataset [%s] of size %d was created" % (type(instance).__name__, len(instance)))
+    # print("dataset [%s] of size %d was created" % (type(instance).__name__, len(instance)))
     dataloader = torch.utils.data.DataLoader(
         instance,
         batch_size=opt.batchSize,

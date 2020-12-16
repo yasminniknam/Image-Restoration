@@ -31,7 +31,7 @@ class SPADEGenerator(BaseNetwork):
 
         self.sw, self.sh = self.compute_latent_vector_size(opt)
 
-        print("The size of the latent vector size is [%d,%d]" % (self.sw, self.sh))
+        # print("The size of the latent vector size is [%d,%d]" % (self.sw, self.sh))
 
         if opt.use_vae:
             # In case of VAE, we will sample from random z vector

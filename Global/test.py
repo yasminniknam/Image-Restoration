@@ -175,7 +175,7 @@ def test(input_opts, input_loader, input_names, mask_loader=None):
         #     continue
         # input = Image.open(input_file).convert("RGB")
 
-        print("Now you are processing %s" % (input_name))
+        # print("Now you are processing %s" % (input_name))
 
         if opt.NL_use_mask:
             # mask_name = mask_loader[i]
@@ -204,7 +204,7 @@ def test(input_opts, input_loader, input_names, mask_loader=None):
         try:
             generated = model.inference(input, mask)
         except Exception as ex:
-            print("Skip %s due to an error:\n%s" % (input_name, str(ex)))
+            # print("Skip %s due to an error:\n%s" % (input_name, str(ex)))
             continue
 
         if input_name.endswith(".jpg"):

@@ -292,8 +292,8 @@ class BaseOptions:
             if id >= 0:
                 opt.gpu_ids.append(id)
 
-        print("The main GPU is ")
-        print(opt.gpu_ids[0])
+        # print("The main GPU is ")
+        # print(opt.gpu_ids[0])
         if len(opt.gpu_ids) > 0:
             torch.cuda.set_device(opt.gpu_ids[0])
 

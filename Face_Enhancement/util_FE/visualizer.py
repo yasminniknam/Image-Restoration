@@ -34,7 +34,7 @@ class Visualizer:
                     os.makedirs(self.log_dir)
                 self.writer = SummaryWriter(log_dir=self.log_dir)
             else:
-                print("hi :)")
+                # print("hi :)")
                 self.log_dir = os.path.join(opt.checkpoints_dir, opt.name, opt.results_dir)
                 if not os.path.exists(self.log_dir):
                     os.makedirs(self.log_dir)
@@ -96,7 +96,7 @@ class Visualizer:
             v = v.mean().float()
             message += "%s: %.3f " % (k, v)
 
-        print(message)
+        # print(message)
         with open(self.log_name, "a") as log_file:
             log_file.write("%s\n" % message)
 
