@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     
     ## Stage 1: Overall Quality Improve
-    print("Running Stage 1: Overall restoration")
+    # print("Running Stage 1: Overall restoration")
     os.chdir("./Global")
     stage_1_input_dir = opts.input_folder
     stage_1_output_dir = os.path.join(opts.output_folder, "stage_1_restore_output")
@@ -109,12 +109,12 @@ if __name__ == "__main__":
     #     img_dir = os.path.join(stage_1_results, x)
     #     shutil.copy(img_dir, stage_4_output_dir)
 
-    print("Finish Stage 1 ...")
-    print("\n")
+    # print("Finish Stage 1 ...")
+    # print("\n")
 
     ## Stage 2: Face Detection
 
-    print("Running Stage 2: Face Detection")
+    # print("Running Stage 2: Face Detection")
     os.chdir(".././Face_Detection")
     stage_2_input_dir = os.path.join(stage_1_output_dir, "restored_image")
     stage_2_output_dir = os.path.join(opts.output_folder, "stage_2_detection_output")
@@ -124,14 +124,14 @@ if __name__ == "__main__":
     input_opts_stage2 = ["--url", stage_2_input_dir, "--save_url", stage_2_output_dir]
     face_names, faces_detected = detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
     
-    print("Finish Stage 2 ...")
-    print("\n")
+    # print("Finish Stage 2 ...")
+    # print("\n")
 
     ## Stage 3: Face Restore
     stage3_names = face_names
     stage3_input = faces_detected
     
-    print("Running Stage 3: Face Enhancement")
+    # print("Running Stage 3: Face Enhancement")
 
     os.chdir(".././Face_Enhancement")
     stage_3_input_mask = "./"
@@ -148,11 +148,11 @@ if __name__ == "__main__":
 
     fine_faces = test_face.test_face(input_opts_stage3, stage3_input, stage3_names)
     
-    print("Finish Stage 3 ...")
-    print("\n")
+    # print("Finish Stage 3 ...")
+    # print("\n")
 
     ## Stage 4: Warp back
-    print("Running Stage 4: Blending")
+    # print("Running Stage 4: Blending")
     os.chdir(".././Face_Detection")
     stage_4_input_image_dir = os.path.join(stage_1_output_dir, "restored_image")
     stage_4_input_face_dir = os.path.join(stage_3_output_dir, "each_img")
@@ -169,8 +169,8 @@ if __name__ == "__main__":
     
     opts = parser.parse_args(input_opts)
     align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names, face_names)
-    print("Finish Stage 4 ...")
-    print("\n")
+    # print("Finish Stage 4 ...")
+    # print("\n")
 
     print("All the processing is done. Please check the results.")
 
