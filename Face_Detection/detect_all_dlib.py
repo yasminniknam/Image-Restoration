@@ -141,8 +141,8 @@ def detect_all_dlib(input_opts, restored_images, input_names):
 
     ### If the origin url is None, then we don't need to reid the origin image
 
-    os.makedirs(url, exist_ok=True)
-    os.makedirs(save_url, exist_ok=True)
+    # os.makedirs(url, exist_ok=True)
+    # os.makedirs(save_url, exist_ok=True)
 
     face_detector = dlib.get_frontal_face_detector()
     landmark_locator = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -182,7 +182,7 @@ def detect_all_dlib(input_opts, restored_images, input_names):
                 aligned_face = warp(image, affine, output_shape=(256, 256, 3))
                 img_name = input_names[x][:-4] + "_" + str(face_id + 1)
                 # all_faces_one_frame.append(img_as_ubyte(aligned_face))
-                io.imsave(os.path.join(save_url, img_name + ".png"), img_as_ubyte(aligned_face))
+                # io.imsave(os.path.join(save_url, img_name + ".png"), img_as_ubyte(aligned_face))
                 face_names.append(img_name + ".png")
                 faces_detected.append(Image.fromarray(img_as_ubyte(aligned_face)))
             # final_faces[x] = all_faces_one_frame
