@@ -126,7 +126,7 @@ def parameter_set(opt):
         opt.load_pretrainB = os.path.join(opt.checkpoints_dir, "VAE_B_scratch")
 
 
-def test(input_opts, input_loader, input_names):
+def test(input_opts, input_loader, input_names, mask_loader=None):
 
     opt = TestOptions().parse(_input_opts=input_opts, save=False)
     parameter_set(opt)
@@ -150,10 +150,10 @@ def test(input_opts, input_loader, input_names):
     # input_loader.sort()
     # dataset_size = len(input_loader)
 
-    if opt.test_mask != "":
-        mask_loader = os.listdir(opt.test_mask)
-        dataset_size = len(os.listdir(opt.test_mask))
-        mask_loader.sort()
+    # if opt.test_mask != "":
+    #     mask_loader = os.listdir(opt.test_mask)
+    #     dataset_size = len(os.listdir(opt.test_mask))
+    #     mask_loader.sort()
 
     img_transform = transforms.Compose(
         [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
@@ -178,8 +178,9 @@ def test(input_opts, input_loader, input_names):
         print("Now you are processing %s" % (input_name))
 
         if opt.NL_use_mask:
-            mask_name = mask_loader[i]
-            mask = Image.open(os.path.join(opt.test_mask, mask_name)).convert("RGB")
+            # mask_name = mask_loader[i]
+            mask = mask_loader[i]
+            # mask = Image.open(os.path.join(opt.test_mask, mask_name)).convert("RGB")
             origin = input
             input = irregular_hole_synthesize(input, mask)
             mask = mask_transform(mask)

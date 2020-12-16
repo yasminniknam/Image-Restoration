@@ -93,12 +93,12 @@ if __name__ == "__main__":
         
         input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
                                     "--input_size", "full_size"]
-        input_imgs_after_detection = detection.detection(input_opts_stage1_command1, input_images, input_names)
+        input_imgs_after_detection, mask_dirs = detection.detection(input_opts_stage1_command1, input_images, input_names)
         
         input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
                                     "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
         
-        restored_images = test.test(input_opts_stage1_command2, input_imgs_after_detection, input_names)
+        restored_images = test.test(input_opts_stage1_command2, input_imgs_after_detection, input_names, mask_loader=mask_dirs)
 
     ## Solve the case when there is no face in the old photo
     stage_1_results = os.path.join(stage_1_output_dir, "restored_image")

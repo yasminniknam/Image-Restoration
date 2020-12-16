@@ -11,8 +11,43 @@ import torchvision as tv
 import torch.nn.functional as F
 from detection_util.util import *
 from detection_models import networks
-from PIL import Image, ImageFile
+from PIL import Image, ImageFile, ImageFont
 import json
+
+from typing import Union, Optional, List, Tuple, Text, BinaryIO
+import pathlib
+import math
+
+def save_image(
+    tensor: Union[torch.Tensor, List[torch.Tensor]],
+    fp: Union[Text, pathlib.Path, BinaryIO],
+    nrow: int = 8,
+    padding: int = 2,
+    normalize: bool = False,
+    range: Optional[Tuple[int, int]] = None,
+    scale_each: bool = False,
+    pad_value: int = 0,
+    format: Optional[str] = None,
+) -> None:
+    """Save a given Tensor into an image file.
+    Args:
+        tensor (Tensor or list): Image to be saved. If given a mini-batch tensor,
+            saves the tensor as a grid of images by calling ``make_grid``.
+        fp (string or file object): A filename or a file object
+        format(Optional):  If omitted, the format to use is determined from the filename extension.
+            If a file object was used instead of a filename, this parameter should always be used.
+        **kwargs: Other arguments are documented in ``make_grid``.
+    """
+    grid = tv.utils.make_grid(tensor, nrow=nrow, padding=padding, pad_value=pad_value,
+                     normalize=normalize, range=range, scale_each=scale_each)
+    # Add 0.5 after unnormalizing to [0, 255] to round to nearest integer
+    ndarr = grid.mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to('cpu', torch.uint8).numpy()
+    im = Image.fromarray(ndarr)
+    im.save(fp, format=format)
+
+    return im
+
+
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -99,6 +134,7 @@ def main(config, input_images, image_names):
 
     idx = 0
     input_dirs = []
+    mask_dirs = []
 
     # for image_name in imagelist:
     # for scratch_image in input_images:
@@ -133,14 +169,14 @@ def main(config, input_images, image_names):
         P = P.data.cpu()
         
         
-        tv.utils.save_image(
+        mask_dirs.append(save_image(
             (P >= 0.4).float(),
             os.path.join(output_dir, image_name[:-4] + ".png",),
             # os.path.join(output_dir, str(idx) + ".png",),
             nrow=1,
             padding=0,
             normalize=True,
-        )
+        ))
         transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
         input_dirs.append(transformed_image_PIL)
         # transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
@@ -150,7 +186,7 @@ def main(config, input_images, image_names):
         # blend_output=blend_mask(transformed_image_PIL,RGB_mask)
         # blend_output.save(os.path.join(blend_output_dir,image_name[:-4]+'.png'))
 
-    return input_dirs
+    return input_dirs, mask_dirs
 
 
 def detection(input_opts, input_images, image_names):
