@@ -184,7 +184,7 @@ def detect_all_dlib(input_opts, restored_images, input_names):
                 # all_faces_one_frame.append(img_as_ubyte(aligned_face))
                 io.imsave(os.path.join(save_url, img_name + ".png"), img_as_ubyte(aligned_face))
                 face_names.append(img_name + ".png")
-                faces_detected.append(img_as_ubyte(aligned_face))
+                faces_detected.append(Image.fromarray(img_as_ubyte(aligned_face)))
             # final_faces[x] = all_faces_one_frame
         count += 1
 
