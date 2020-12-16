@@ -122,7 +122,7 @@ if __name__ == "__main__":
         os.makedirs(stage_2_output_dir)
     
     input_opts_stage2 = ["--url", stage_2_input_dir, "--save_url", stage_2_output_dir]
-    detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
+    final_faces = detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
     
     print("Finish Stage 2 ...")
     print("\n")
