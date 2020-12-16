@@ -65,7 +65,7 @@ def test_face(input_opts, input_images, image_list):
     if not os.path.exists(single_save_url):
         os.makedirs(single_save_url)
 
-
+    fine_images = []
     for i, data_i in enumerate(dataloader):
         if i * opt.batchSize >= opt.how_many:
             break
@@ -78,5 +78,7 @@ def test_face(input_opts, input_images, image_list):
             img_name = os.path.split(img_path[b])[-1]
             save_img_url = os.path.join(single_save_url, img_name)
 
-            vutils.save_image((generated[b] + 1) / 2, save_img_url)
+            fine_images.append(save_image((generated[b] + 1) / 2, save_img_url))
+
+    return fine_images
 

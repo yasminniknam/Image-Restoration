@@ -145,7 +145,7 @@ if __name__ == "__main__":
                         "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize",
                         "--batchSize", "4", "--results_dir", stage_3_output_dir, "--no_parsing_map"]
 
-    test_face.test_face(input_opts_stage3, stage3_input, stage3_names)
+    fine_faces = test_face.test_face(input_opts_stage3, stage3_input, stage3_names)
 
     print("Finish Stage 3 ...")
     print("\n")
@@ -167,7 +167,7 @@ if __name__ == "__main__":
                 "--save_url", stage_4_output_dir]
     
     opts = parser.parse_args(input_opts)
-    align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts)
+    align_warp_back_multiple_dlib.align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names, face_names)
 
     print("Finish Stage 4 ...")
     print("\n")

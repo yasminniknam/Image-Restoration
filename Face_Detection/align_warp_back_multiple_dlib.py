@@ -345,7 +345,7 @@ def search(face_landmarks):
 
 
 # if __name__ == "__main__":
-def align_warp_back_multiple_dlib(opts):
+def align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names, face_names):
 
     # parser = argparse.ArgumentParser()
     # parser.add_argument("--origin_url", type=str, default="./", help="origin images")
@@ -365,9 +365,11 @@ def align_warp_back_multiple_dlib(opts):
 
     count = 0
 
-    for x in os.listdir(origin_url):
-        img_url = os.path.join(origin_url, x)
-        pil_img = Image.open(img_url).convert("RGB")
+    # for x in os.listdir(origin_url):
+    for x in range(len(restored_images)):
+        # img_url = os.path.join(origin_url, x)
+        # pil_img = Image.open(img_url).convert("RGB")
+        pil_img = restored_images[x]
 
         origin_width, origin_height = pil_img.size
         image = np.array(pil_img)
@@ -377,7 +379,7 @@ def align_warp_back_multiple_dlib(opts):
         done = time.time()
 
         if len(faces) == 0:
-            print("Warning: There is no face in %s" % (x))
+            print("Warning: There is no face in %s" % (input_names[x]))
             continue
 
         blended = image
@@ -398,9 +400,11 @@ def align_warp_back_multiple_dlib(opts):
             cur_face = aligned_face
             if replace_url != "":
 
-                face_name = x[:-4] + "_" + str(face_id + 1) + ".png"
-                cur_url = os.path.join(replace_url, face_name)
-                restored_face = Image.open(cur_url).convert("RGB")
+                face_name = input_names[x][:-4] + "_" + str(face_id + 1) + ".png"
+                id_face = face_names.find(face_name)
+                # cur_url = os.path.join(replace_url, face_name)
+                # restored_face = Image.open(cur_url).convert("RGB")
+                restored_face = fine_faces[id_face]
                 restored_face = np.array(restored_face)
                 cur_face = restored_face
 
@@ -429,7 +433,7 @@ def align_warp_back_multiple_dlib(opts):
             blended = blur_blending_cv2(warped_back, blended, backward_mask)
             blended *= 255.0
 
-        io.imsave(os.path.join(save_url, x), img_as_ubyte(blended / 255.0))
+        io.imsave(os.path.join(save_url, input_names[x]), img_as_ubyte(blended / 255.0))
 
         count += 1
 
