@@ -168,7 +168,7 @@ def compute_inverse_transformation_matrix(img, landmark, normalize, target_face_
 
 def show_detection(image, box, landmark):
     plt.imshow(image)
-    # print(box[2] - box[0])
+    print(box[2] - box[0])
     plt.gca().add_patch(
         Rectangle(
             (box[1], box[0]), box[2] - box[0], box[3] - box[1], linewidth=1, edgecolor="r", facecolor="none"
@@ -288,7 +288,7 @@ def seamless_clone(old_face, new_face, raw_mask):
     # if np.sum(insertion_mask) == 0:
     n_mask = insertion_mask[1:-1, 1:-1, :]
     n_mask = cv2.copyMakeBorder(n_mask, 1, 1, 1, 1, cv2.BORDER_CONSTANT, 0)
-    # print(n_mask.shape)
+    print(n_mask.shape)
     x, y, w, h = cv2.boundingRect(n_mask[:, :, 0])
     if w < 4 or h < 4:
         blended = prior
@@ -379,7 +379,8 @@ def align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names
         done = time.time()
 
         if len(faces) == 0:
-            # print("Warning: There is no face in %s" % (input_names[x]))
+            print("Warning: There is no face in %s" % (input_names[x]))
+            io.imsave(os.path.join(save_url, input_names[x]), img_as_ubyte(image / 255.0))
             continue
 
         blended = image
@@ -436,7 +437,7 @@ def align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names
         io.imsave(os.path.join(save_url, input_names[x]), img_as_ubyte(blended / 255.0))
 
         count += 1
-
+        
         # if count % 1000 == 0:
             # print("%d have finished ..." % (count))
 
