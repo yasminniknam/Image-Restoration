@@ -43,7 +43,7 @@ def save_image(
     # Add 0.5 after unnormalizing to [0, 255] to round to nearest integer
     ndarr = grid.mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to('cpu', torch.uint8).numpy()
     im = Image.fromarray(ndarr)
-    im.save(fp, format=format)
+    # im.save(fp, format=format)
 
     return im
 
@@ -123,13 +123,13 @@ def main(config, input_images, image_names):
 
     P_matrix = {}
     save_url = os.path.join(config.output_dir)
-    mkdir_if_not(save_url)
+    # mkdir_if_not(save_url)
 
     input_dir = os.path.join(save_url, "input")
     output_dir = os.path.join(save_url, "mask")
     # blend_output_dir=os.path.join(save_url, 'blend_output')
-    mkdir_if_not(input_dir)
-    mkdir_if_not(output_dir)
+    # mkdir_if_not(input_dir)
+    # mkdir_if_not(output_dir)
     # mkdir_if_not(blend_output_dir)
 
     idx = 0
@@ -177,7 +177,7 @@ def main(config, input_images, image_names):
             padding=0,
             normalize=True,
         ))
-        transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
+        # transformed_image_PIL.save(os.path.join(input_dir, image_name[:-4] + ".png"))
         input_dirs.append(transformed_image_PIL)
         # transformed_image_PIL.save(os.path.join(input_dir, str(idx) + ".png"))
 

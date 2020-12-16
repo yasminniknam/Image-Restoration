@@ -47,7 +47,7 @@ def save_image(
     # Add 0.5 after unnormalizing to [0, 255] to round to nearest integer
     ndarr = grid.mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to('cpu', torch.uint8).numpy()
     im = Image.fromarray(ndarr)
-    im.save(fp, format=format)
+    # im.save(fp, format=format)
 
     return im
 
