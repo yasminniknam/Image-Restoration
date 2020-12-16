@@ -20,18 +20,19 @@ class FaceTestDataset(BaseDataset):
         #    parser.set_defaults(no_instance=True)
         return parser
 
-    def initialize(self, opt):
+    def initialize(self, opt, input_images, image_list):
         self.opt = opt
 
         image_path = os.path.join(opt.dataroot, opt.old_face_folder)
         label_path = os.path.join(opt.dataroot, opt.old_face_label_folder)
 
-        image_list = os.listdir(image_path)
-        image_list = sorted(image_list)
-        # image_list=image_list[:opt.max_dataset_size]
+        # image_list = os.listdir(image_path)
+        # image_list = sorted(image_list)
+        ## image_list=image_list[:opt.max_dataset_size]
 
         self.label_paths = label_path  ## Just the root dir
         self.image_paths = image_list  ## All the image name
+        self.images = input_images
 
         self.parts = [
             "skin",
@@ -62,8 +63,9 @@ class FaceTestDataset(BaseDataset):
         params = get_params(self.opt, (-1, -1))
         image_name = self.image_paths[index]
         image_path = os.path.join(self.opt.dataroot, self.opt.old_face_folder, image_name)
-        image = Image.open(image_path)
-        image = image.convert("RGB")
+        # image = Image.open(image_path)
+        # image = image.convert("RGB")
+        image = self.images[index]
 
         transform_image = get_transform(self.opt, params)
         image_tensor = transform_image(image)

@@ -48,10 +48,10 @@ def save_image(
 
 
 
-def test_face(input_opts):
+def test_face(input_opts, input_images, image_list):
     opt = TestOptions().parse(_input_opts=input_opts)
 
-    dataloader = data_FE.create_dataloader(opt)
+    dataloader = data_FE.create_dataloader(opt, input_images, image_list)
 
     model = Pix2PixModel(opt)
     model.eval()

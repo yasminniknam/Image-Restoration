@@ -128,6 +128,15 @@ if __name__ == "__main__":
     print("\n")
 
     ## Stage 3: Face Restore
+    stage3_names = []
+    stage3_input = []
+    for i in range(len(input_names)):
+        if len(final_faces[i]) == 0:
+            continue
+        for j in range(len(final_faces[i])):
+            stage3_names.append(input_names[i] + "_" + str(1+j))
+            stage3_input.append(final_faces[i][j])
+
     print("Running Stage 3: Face Enhancement")
     os.chdir(".././Face_Enhancement")
     stage_3_input_mask = "./"
@@ -142,7 +151,7 @@ if __name__ == "__main__":
                         "--load_size", "256", "--label_nc", "18", "--no_instance", "--preprocess_mode", "resize",
                         "--batchSize", "4", "--results_dir", stage_3_output_dir, "--no_parsing_map"]
 
-    test_face.test_face(input_opts_stage3)
+    test_face.test_face(input_opts_stage3, stage3_input, stage3_names)
 
     print("Finish Stage 3 ...")
     print("\n")
