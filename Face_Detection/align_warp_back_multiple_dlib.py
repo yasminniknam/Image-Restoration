@@ -401,7 +401,7 @@ def align_warp_back_multiple_dlib(opts, restored_images, fine_faces, input_names
             if replace_url != "":
 
                 face_name = input_names[x][:-4] + "_" + str(face_id + 1) + ".png"
-                id_face = face_names.find(face_name)
+                id_face = face_names.index(face_name)
                 # cur_url = os.path.join(replace_url, face_name)
                 # restored_face = Image.open(cur_url).convert("RGB")
                 restored_face = fine_faces[id_face]
