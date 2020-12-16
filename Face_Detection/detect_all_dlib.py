@@ -150,7 +150,9 @@ def detect_all_dlib(input_opts, restored_images, input_names):
     count = 0
 
     map_id = {}
-    final_faces = [[] for i in range(len(restored_images))]
+    # final_faces = [[] for i in range(len(restored_images))]
+    face_names = []
+    faces_detected = []
     # for x in os.listdir(url):
     for x in range(len(restored_images)):
         # img_url = os.path.join(url, x)
@@ -170,7 +172,7 @@ def detect_all_dlib(input_opts, restored_images, input_names):
         print(len(faces))
 
         if len(faces) > 0:
-            all_faces_one_frame = []
+            # all_faces_one_frame = []
             for face_id in range(len(faces)):
                 current_face = faces[face_id]
                 face_landmarks = landmark_locator(image, current_face)
@@ -179,13 +181,15 @@ def detect_all_dlib(input_opts, restored_images, input_names):
                 affine = compute_transformation_matrix(image, current_fl, False, target_face_scale=1.3)
                 aligned_face = warp(image, affine, output_shape=(256, 256, 3))
                 img_name = input_names[x][:-4] + "_" + str(face_id + 1)
-                all_faces_one_frame.append(img_as_ubyte(aligned_face))
+                # all_faces_one_frame.append(img_as_ubyte(aligned_face))
                 io.imsave(os.path.join(save_url, img_name + ".png"), img_as_ubyte(aligned_face))
-            final_faces[x] = all_faces_one_frame
+                face_names.append(img_name + ".png")
+                faces_detected.append(img_as_ubyte(aligned_face))
+            # final_faces[x] = all_faces_one_frame
         count += 1
 
         if count % 1000 == 0:
             print("%d have finished ..." % (count))
     
-    return final_faces
+    return face_names, faces_detected
 

@@ -122,21 +122,15 @@ if __name__ == "__main__":
         os.makedirs(stage_2_output_dir)
     
     input_opts_stage2 = ["--url", stage_2_input_dir, "--save_url", stage_2_output_dir]
-    final_faces = detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
+    face_names, faces_detected = detect_all_dlib.detect_all_dlib(input_opts_stage2, restored_images, input_names)
     
     print("Finish Stage 2 ...")
     print("\n")
 
     ## Stage 3: Face Restore
-    stage3_names = []
-    stage3_input = []
-    for i in range(len(input_names)):
-        if len(final_faces[i]) == 0:
-            continue
-        for j in range(len(final_faces[i])):
-            stage3_names.append(input_names[i] + "_" + str(1+j))
-            stage3_input.append(final_faces[i][j])
-
+    stage3_names = face_names
+    stage3_input = faces_detected
+    
     print("Running Stage 3: Face Enhancement")
     os.chdir(".././Face_Enhancement")
     stage_3_input_mask = "./"
