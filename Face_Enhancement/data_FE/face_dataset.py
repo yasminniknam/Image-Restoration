@@ -66,6 +66,7 @@ class FaceTestDataset(BaseDataset):
         # image = Image.open(image_path)
         # image = image.convert("RGB")
         image = self.images[index]
+        image = image.convert("RGB")
 
         transform_image = get_transform(self.opt, params)
         image_tensor = transform_image(image)
