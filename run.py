@@ -91,13 +91,22 @@ if __name__ == "__main__":
         new_input = os.path.join(mask_dir, "input")
         new_mask = os.path.join(mask_dir, "mask")
         
+        # input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
+        #                             "--input_size", "full_size", "--GPU", gpu1]
+        
         input_opts_stage1_command1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
-                                    "--input_size", "full_size"]
+                                    "--input_size", "scale_256", "--GPU", gpu1]
+
         input_imgs_after_detection, mask_dirs = detection.detection(input_opts_stage1_command1, input_images, input_names)
         
-        input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
-                                    "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir]
-        
+        # input_opts_stage1_command2 = ["--Scratch_and_Quality_restore", "--test_input", new_input,
+        #                             "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir,
+        #                             "--gpu_ids", gpu1]
+
+        input_opts_stage1_command2 = ["--test_mode", "Scale", "--Scratch_and_Quality_restore", "--test_input", new_input,
+                                    "--test_mask", new_mask, "--outputs_dir", stage_1_output_dir,
+                                    "--gpu_ids", gpu1]
+
         restored_images = test.test(input_opts_stage1_command2, input_imgs_after_detection, input_names, mask_loader=mask_dirs)
 
     ## Solve the case when there is no face in the old photo

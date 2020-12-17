@@ -204,7 +204,7 @@ def test(input_opts, input_loader, input_names, mask_loader=None):
         try:
             generated = model.inference(input, mask)
         except Exception as ex:
-            # print("Skip %s due to an error:\n%s" % (input_name, str(ex)))
+            print("Skip %s due to an error:\n%s" % (input_name, str(ex)))
             continue
 
         if input_name.endswith(".jpg"):
