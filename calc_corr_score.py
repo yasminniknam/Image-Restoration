@@ -90,8 +90,8 @@ for i in range(len(image)):
     # print(getPSNR(image[i-1], image[i]))
     # print(getPSNR(image[i], image[i+1]))
     # print("**")
-    if chosen[0] > 19:
-      image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[chosen[1]], mask[i])
+  if chosen[0] > 19:
+    image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[chosen[1]], mask[i])
     
-    io.imsave(os.path.join(final_address, imagelist[i]), img_as_ubyte(image_mask[i]))
+  io.imsave(os.path.join(final_address, imagelist[i]), img_as_ubyte(image_mask[i]))
       
