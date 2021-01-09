@@ -4,6 +4,8 @@ import sys
 import cv2 as cv
 import numpy as np
 import skimage.io as io
+from skimage import img_as_ubyte
+from PIL import Image, ImageFile
 
 sys.path.insert(0, '/content/photo_restoration/Global')
 import detection
@@ -46,6 +48,7 @@ imagelist.sort(key=lambda f: int(re.sub('\D', '', f)))
 # print(getPSNR(image2.copy(), image3.copy()))
 
 image = [cv.imread(address+imagelist[i]) for i in range(len(imagelist))]
+image_mask = [Image.open(address+imagelist[i]).convert("RGB") for i in range(len(imagelist))]
 
 stage_1_input_dir = ""
 mask_dir = ""
@@ -53,7 +56,9 @@ gpu1 = 0
 input_opts_stage1 = ["--test_path", stage_1_input_dir, "--output_dir", mask_dir,
                                     "--input_size", "scale_256", "--GPU", gpu1]
 
-_ , mask = detection.detection(input_opts_stage1, image, imagelist)
+os.chdir("./Global")
+_ , mask = detection.detection(input_opts_stage1, image_mask, imagelist)
+os.chdir("../")
 
 if not os.path.exists(final_address):
       os.makedirs(final_address)
@@ -62,7 +67,7 @@ for i in range(len(image)):
   prev = -1
   next = 0
   chosen = -1
-  # print("* frame "+str(i)+" *")
+  print("* frame "+str(i)+" *")
   if i == 0:
     next = getPSNR(image[i], image[i+1])
     chosen = (next, i+1)
@@ -86,7 +91,7 @@ for i in range(len(image)):
     # print(getPSNR(image[i], image[i+1]))
     # print("**")
     if chosen[0] > 19:
-      image[i] = irregular_hole_synthesize(image[i], image[chosen[1]], mask[i])
+      image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[chosen[1]], mask[i])
     
-    io.imsave(os.path.join(final_address, imagelist[i]), img_as_ubyte(image[i] / 255.0))
+    io.imsave(os.path.join(final_address, imagelist[i]), img_as_ubyte(image_mask[i]))
       
