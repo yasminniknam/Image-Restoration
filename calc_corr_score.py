@@ -32,7 +32,9 @@ def irregular_hole_synthesize(img, new_img, mask, new_img2=None):
     mask_np = mask_np / 255
     if new_img2 != None:
       new_img2_np = np.array(new_img).astype("uint8")
-    img_new = img_np * (1 - mask_np) + mask_np * (new_img_np+new_img2_np)/2.
+      img_new = img_np * (1 - mask_np) + mask_np * (new_img_np+new_img2_np)/2.
+    else:
+      img_new = img_np * (1 - mask_np) + mask_np * new_img_np
 
     hole_img = Image.fromarray(img_new.astype("uint8")).convert("RGB")
 
