@@ -24,13 +24,15 @@ def getPSNR(I1, I2):
         psnr = 10.0 * np.log10((255 * 255) / mse)
         return psnr
 
-def irregular_hole_synthesize(img, new_img, mask):
+def irregular_hole_synthesize(img, new_img, mask, new_img2=None):
 
     img_np = np.array(img).astype("uint8")
     new_img_np = np.array(new_img).astype("uint8")
     mask_np = np.array(mask).astype("uint8")
     mask_np = mask_np / 255
-    img_new = img_np * (1 - mask_np) + mask_np * new_img_np
+    if new_img2 != None:
+      new_img2_np = np.array(new_img).astype("uint8")
+    img_new = img_np * (1 - mask_np) + mask_np * (new_img_np+new_img2_np)/2.
 
     hole_img = Image.fromarray(img_new.astype("uint8")).convert("RGB")
 
@@ -83,15 +85,25 @@ for i in range(len(image)):
   else:
     prev = getPSNR(image[i-1], image[i])
     next = getPSNR(image[i], image[i+1])
-    if next > prev:
-      chosen = (next, i+1)
-    else:
-      chosen = (prev,i-1)
+    # if next > prev:
+    #   chosen = (next, i+1)
+    # else:
+    #   chosen = (prev,i-1)
+    
+
+    if next > 19:
+      if prev > 19:
+        image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[i+1], mask[i], new_img2=i-1)
+      else:
+        image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[i+1], mask[i])
+    elif prev > 19:
+      image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[i-1], mask[i])
+
     # print(getPSNR(image[i-1], image[i]))
     # print(getPSNR(image[i], image[i+1]))
     # print("**")
-  if chosen[0] > 19:
-    image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[chosen[1]], mask[i])
+  # if chosen[0] > 19:
+  #   image_mask[i] = irregular_hole_synthesize(image_mask[i], image_mask[chosen[1]], mask[i])
     
   io.imsave(os.path.join(final_address, imagelist[i]), img_as_ubyte(image_mask[i]))
       
