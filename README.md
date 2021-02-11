@@ -2,26 +2,15 @@
 
 <img src='imgs/0001.jpg'/>
 
-### [Project Page](http://raywzy.com/Old_Photo/) | [Paper (CVPR version)](https://arxiv.org/abs/2004.09484) | [Paper (Journal version)](https://arxiv.org/pdf/2009.07047v1.pdf) | [Pretrained Model](https://portland-my.sharepoint.com/:f:/g/personal/ziyuwan2-c_ad_cityu_edu_hk/Eh1gtjfLiWtLiBDGZhaTvokBvDUdvA5j49f_NpL_Pp9FPA?e=7EddTf) | [Colab Demo](https://colab.research.google.com/drive/1NEm6AsybIiC5TwTU_4DqDkQO0nFRB-uA?usp=sharing)
+**Bringing Old Photos Back to Life**
 
-**Bringing Old Photos Back to Life, CVPR2020 (Oral)**
-
-**Old Photo Restoration via Deep Latent Space Translation, PAMI Under Review**
-
-[Ziyu Wan](http://raywzy.com/)<sup>1</sup>,
-[Bo Zhang](https://www.microsoft.com/en-us/research/people/zhanbo/)<sup>2</sup>,
-[Dongdong Chen](http://www.dongdongchen.bid/)<sup>3</sup>,
-[Pan Zhang](https://panzhang0212.github.io/)<sup>4</sup>,
-[Dong Chen](https://www.microsoft.com/en-us/research/people/doch/)<sup>2</sup>,
-[Jing Liao](https://liaojing.github.io/html/)<sup>1</sup>,
-[Fang Wen](https://www.microsoft.com/en-us/research/people/fangwen/)<sup>2</sup> <br>
-<sup>1</sup>City University of Hong Kong, <sup>2</sup>Microsoft Research Asia, <sup>3</sup>Microsoft Cloud AI, <sup>4</sup>USTC
+**Old Photo Restoration via Deep Latent Space Translation**
 
 ## New
 You can now play with our [Colab](https://colab.research.google.com/drive/1NEm6AsybIiC5TwTU_4DqDkQO0nFRB-uA?usp=sharing) and try it on your photos. 
 
 ## Requirement
-The code is tested on Ubuntu with Nvidia GPUs and CUDA installed. Python>=3.6 is required to run the code.
+Python>=3.6 is required to run the code.
 
 ## Installation
 
@@ -140,50 +129,3 @@ We use a progressive generator to refine the face regions of old photos. More de
 
 
 <img src='imgs/face.png'>
-
-> *NOTE*: 
-> This repo is mainly for research purpose and we have not yet optimized the running performance. 
-> 
-> Since the model is pretrained with 256*256 images, the model may not work ideally for arbitrary resolution.
-
-## To Do
-- [x] Clean testing code
-- [x] Release pretrained model
-- [x] Collab demo
-- [ ] Replace face detection module (dlib) with RetinaFace
-- [ ] Release training code
-
-
-## Citation
-
-If you find our work useful for your research, please consider citing the following papers :)
-
-```
-@inproceedings{wan2020bringing,
-title={Bringing Old Photos Back to Life},
-author={Wan, Ziyu and Zhang, Bo and Chen, Dongdong and Zhang, Pan and Chen, Dong and Liao, Jing and Wen, Fang},
-booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-pages={2747--2757},
-year={2020}
-}
-```
-
-```
-@misc{2009.07047,
-Author = {Ziyu Wan and Bo Zhang and Dongdong Chen and Pan Zhang and Dong Chen and Jing Liao and Fang Wen},
-Title = {Old Photo Restoration via Deep Latent Space Translation},
-Year = {2020},
-Eprint = {arXiv:2009.07047},
-}
-```
-
-
-## Maintenance
-
-This project is currently maintained by Ziyu Wan and is for academic research use only. If you have any questions, feel free to contact raywzy@gmail.com.
-
-## License
-
-The codes and the pretrained model in this repository are under the MIT license as specified by the LICENSE file. We use our labeled dataset to train the scratch detection model.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
