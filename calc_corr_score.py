@@ -71,7 +71,7 @@ for i in range(len(image)):
   prev = -1
   next = 0
   chosen = -1
-  print("* frame "+str(i)+" *")
+#   print("* frame "+str(i)+" *")
   if i == 0:
     next = getPSNR(image[i], image[i+1])
     chosen = (next, i+1)
