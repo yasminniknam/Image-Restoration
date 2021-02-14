@@ -7,7 +7,7 @@
 **Old Photo Restoration via Deep Latent Space Translation**
 
 ## New
-You can now play with our [Colab](https://colab.research.google.com/drive/1NEm6AsybIiC5TwTU_4DqDkQO0nFRB-uA?usp=sharing) and try it on your photos. 
+You can now play with our [Colab](https://colab.research.google.com/drive/1F4-EyE01Qx_-YoB_d9tmkbazszS5D8OJ?usp=sharing) and try it on your photos. 
 
 ## Requirement
 Python>=3.6 is required to run the code.
